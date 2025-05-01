@@ -43,7 +43,7 @@ local_time = datetime.now(local_tz)
 OFFLINE_STORAGE = "offline_sales.json"
 
 # Initialize pygame for playing audio
-pygame.mixer.init()
+# pygame.mixer.init()
 
 # async def speak(text, lang='kn'):
 #     print(f"Agrinex ({lang}): {text}")
