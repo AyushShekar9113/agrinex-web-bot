@@ -3,7 +3,6 @@ from pymongo import MongoClient
 from .farmer import register_farmer, farmers_collection
 # from farmer import register_farmer,farmers_collection
 import speech_recognition as sr
-import pyttsx3
 import re  
 from word2number import w2n
 import time
