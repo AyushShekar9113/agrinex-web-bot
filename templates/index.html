@@ -138,8 +138,9 @@ body.dark-mode #toggleMode {
                 const message = event.data;
                 console.log("DEBUG: Received from server:", message);
 
-        // ✅ Only display if it's not already seen
-        if (!seenMessages.has(message)) {
+        if (message.endsWith('.mp3') || message.endsWith('.wav')) {
+        updateAudioPlayer(message);  // 👈 play the audio
+    } else if (!seenMessages.has(message)) {
             seenMessages.add(message);
             const container = document.getElementById("agentResponseContainer");
             const messageElem = document.createElement("p");
