@@ -136,18 +136,21 @@ async def speak(websocket,text, lang='kn'):
         
         else:
             # Cloud TTS with gTTS (when deployed)
+            # Cloud TTS for web deployment
             print("Using cloud TTS with gTTS")
-            
-            # Create temporary audio file from gTTS
-            tts = gTTS(text=text, lang=lang)
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as fp:
-                temp_path = fp.name
-                tts.save(temp_path)
 
-            # You can upload this to your server or return the file for playback in the frontend
-            print(f"Audio saved at: {temp_path}")
-            return temp_path  # For cloud-based TTS, you may need to serve this file as a URL
-        
+            filename = f"response_{int(asyncio.get_event_loop().time()*1000)}.mp3"
+            audio_path = os.path.join(AUDIO_DIR, filename)
+            tts = gTTS(text=text, lang=lang)
+            tts.save(audio_path)
+            # Construct the public URL path to the audio file
+# Determine base URL dynamically
+            BASE_URL = "http://127.0.0.1:8000" if IS_LOCAL else "https://your-app-name.onrender.com"
+# Create the dynamic audio URL
+            audio_url = f"{BASE_URL}/static/audio/{filename}"
+            print(f"Audio URL: {audio_url}")
+# Send URL to frontend via WebSocket
+            await websocket.send(json.dumps({"audio_url": audio_url}))        
     except Exception as e:
         print(f"❌ TTS error: {e}")
 
