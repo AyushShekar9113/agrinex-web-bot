@@ -32,8 +32,8 @@ sales_collection = db["sales"]
 help_requests_collection = db["help_requests"]
 emergency_collection = db["emergency_requests"]
 # Initialize Text-to-Speech (TTS)
-engine = pyttsx3.init()
-engine.setProperty("rate", 150)
+# engine = pyttsx3.init()
+# engine.setProperty("rate", 150)
 # Set your local timezone (e.g., Asia/Kolkata)
 local_tz = pytz.timezone("Asia/Kolkata")
 # Get current time in local timezone
