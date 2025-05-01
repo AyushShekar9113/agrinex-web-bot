@@ -1,0 +1,6 @@
+services:
+  - type: static
+    name: agrinex-frontend
+    env: static
+    staticPublishPath: .
+    buildCommand: ""

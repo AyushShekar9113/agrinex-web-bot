@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+pymongo
+speechrecognition
+word2number
+requests
+pytz
+gtts
+pygame
+googletrans==4.0.0rc1
+aiofiles
+jinja2
+python-multipart
+python-dotenv
+certifi
+httpcore
+httpx

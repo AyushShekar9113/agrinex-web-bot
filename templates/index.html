@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriNex Web Bot</title>
+    <style>
+         * {
+            box-sizing: border-box;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a7d2e;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #startButton {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 1.5rem;
+        }
+
+        #startButton:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+        }
+
+        #agentResponseContainer {
+            width: 100%;
+            max-width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 1rem;
+            word-wrap: break-word;
+        }
+
+        #agentResponseContainer p {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #audioPlayer {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 2rem;
+        }
+        body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode #agentResponseContainer {
+    background-color: #1e1e1e;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode #startButton {
+    background-color: #2e7d32;
+}
+
+body.dark-mode #toggleMode {
+    background-color: #333;
+    color: white;
+}
+    </style>
+</head>
+<body>
+    <h1>Welcome to AgriNex Web Bot</h1>
+    <button id="toggleMode">Switch to Dark Mode</button>
+    <button id="startButton">Start</button>
+
+    <div id="agentResponse">Agent: Not started yet.</div>
+    <div id="agentResponseContainer"></div>
+    <audio id="audioPlayer" controls></audio>
+
+    <script>
+        const startButton = document.getElementById('startButton');
+        const audioPlayer = document.getElementById('audioPlayer');
+        let socket;
+
+        startButton.addEventListener('click', async () => {
+            startButton.disabled = true;
+            document.getElementById("agentResponseContainer").innerHTML = `<p>Agent: Starting... Please wait.</p>`;
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/start-agent/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({}),
+                });
+
+                const data = await response.json(); // ✅ data is now defined
+
+                document.getElementById("agentResponseContainer").innerHTML += `<p>Agent: ${data.message}</p>`;
+                connectWebSocket();
+            } catch (error) {
+                console.error("Error starting agent:", error);
+                document.getElementById("agentResponseContainer").innerHTML = `<p>Agent: Error starting the agent.</p>`;
+            }
+        });
+
+        function updateAudioPlayer(audioUrl) {
+            audioPlayer.src = audioUrl;
+            audioPlayer.play();
+        }
+
+        const seenMessages = new Set();  // ✅ Track unique messages
+
+        function connectWebSocket() {
+            socket = new WebSocket('ws://127.0.0.1:8000/ws');
+            socket.onopen = () => {
+                console.log('WebSocket connection established.');
+                document.getElementById("agentResponseContainer").innerHTML += `<p>Agent: Typing...</p>`;
+    };
+
+            socket.onmessage = (event) => {
+                const message = event.data;
+                console.log("DEBUG: Received from server:", message);
+
+        // ✅ Only display if it's not already seen
+        if (!seenMessages.has(message)) {
+            seenMessages.add(message);
+            const container = document.getElementById("agentResponseContainer");
+            const messageElem = document.createElement("p");
+            messageElem.textContent = `Agent: ${message}`;
+            container.appendChild(messageElem);
+        }
+    };
+
+    socket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        document.getElementById("agentResponseContainer").innerHTML += `<p>Agent: Typing...</p>`;
+    };
+
+    socket.onclose = () => {
+        console.log('WebSocket closed.');
+    };
+}
+const toggleButton = document.getElementById('toggleMode');
+    toggleButton.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        toggleButton.textContent = 
+            document.body.classList.contains('dark-mode') 
+            ? 'Switch to Light Mode' 
+            : 'Switch to Dark Mode';
+    });
+    </script>
+</body>
+</html>
