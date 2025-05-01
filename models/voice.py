@@ -1041,7 +1041,7 @@ async def return_or_exit(websocket,language, phone_number):
             await speak_translated(websocket,"Invalid input. Please say 9 to return or 0 to exit.", language)
 
 import uuid
-from fuzzywuzzy import fuzz
+# from fuzzywuzzy import fuzz
 
 async def bulletproof_voice_menu(websocket,language):
     if language == "kn":
