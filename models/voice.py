@@ -103,7 +103,7 @@ def process_message_and_generate_audio(message: str):
     return ai_response, audio_file_name
 
 # Initialize pygame for local audio playback
-pygame.mixer.init()
+# pygame.mixer.init()
 
 # This flag determines if the environment is local or deployed
 IS_LOCAL = True  # Set to True for local, False for cloud deployment
