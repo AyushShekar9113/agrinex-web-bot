@@ -128,7 +128,7 @@ body.dark-mode #toggleMode {
         const seenMessages = new Set();  // ✅ Track unique messages
 
         function connectWebSocket() {
-            socket = new WebSocket('ws://agrinex-web-bot.onrender.com/ws');
+            socket = new WebSocket('wss://agrinex-web-bot.onrender.com/ws');
             socket.onopen = () => {
                 console.log('WebSocket connection established.');
                 document.getElementById("agentResponseContainer").innerHTML += `<p>Agent: Typing...</p>`;
