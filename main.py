@@ -52,7 +52,8 @@ async def ask_agent(request: Request):
     ai_response, audio_file_name = voice.process_message_and_generate_audio(user_message)
     
     # Construct the URL for the audio file
-    audio_url = f"http://127.0.0.1:8000/audio/{audio_file_name}"
+    audio_url = f"http://127.0.0.1:10000/audio/{audio_file_name}"
+
     
     return {"reply": ai_response, "audio_url": audio_url}
 
@@ -63,7 +64,7 @@ async def send_output_to_web(data: dict):
         await connection.send_text(output_text)
     return {"status": "ok"}
 
-@app.websocket("/ws")
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
