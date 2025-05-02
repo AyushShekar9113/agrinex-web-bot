@@ -102,7 +102,8 @@ body.dark-mode #toggleMode {
             document.getElementById("agentResponseContainer").innerHTML = `<p>Agent: Starting... Please wait.</p>`;
 
             try {
-                const response = await fetch('http://127.0.0.0.0:10000/start-agent/', {
+                const response = await fetch("http://127.0.0.1:10000/ws", {
+, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -128,7 +129,7 @@ body.dark-mode #toggleMode {
         const seenMessages = new Set();  // ✅ Track unique messages
 
         function connectWebSocket() {
-            socket = new WebSocket('ws://127.0.0.0.0:10000/ws');
+            socket = new WebSocket('ws://127.0.0.1:10000/ws');
             socket.onopen = () => {
                 console.log('WebSocket connection established.');
                 document.getElementById("agentResponseContainer").innerHTML += `<p>Agent: Typing...</p>`;
