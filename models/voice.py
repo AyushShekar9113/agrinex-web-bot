@@ -1204,8 +1204,7 @@ async def main(websocket):
         if should_exit:
             break
     return agent_response
-if __name__ == "__main__":
-    asyncio.run(main(WebSocket)) 
+if __name__ == "__main__": 
     os.environ["IS_LOCAL"] = "true"  # Set this as "false" in cloud environments
 
     print("Test Local Mode (Pygame):")
