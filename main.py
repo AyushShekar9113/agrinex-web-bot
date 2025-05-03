@@ -36,7 +36,7 @@ async def serve_index(request: Request):
 @app.post("/start-agent/")
 async def start_agent(background_tasks: BackgroundTasks):
     # Run AI agent in background
-    # background_tasks.add_task(voice.main)
+    background_tasks.add_task(voice.main)
     # response_message = await voice.main()
     # print(f"Agent response: {response_message}")
     # Send back a response to the frontend
@@ -52,7 +52,7 @@ async def ask_agent(request: Request):
     ai_response, audio_file_name = voice.process_message_and_generate_audio(user_message)
     
     # Construct the URL for the audio file
-    audio_url = f"http://127.0.0.1:10000/audio/{audio_file_name}"
+    audio_url = f`https://agrinex-web-bot-production.up.railway.app/audio/${audio_file_name}`
 
     
     return {"reply": ai_response, "audio_url": audio_url}
