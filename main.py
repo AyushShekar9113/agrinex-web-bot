@@ -16,7 +16,7 @@ templates = Jinja2Templates(directory="templates")
 # logging.basicConfig(level=logging.DEBUG)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins
+    allow_origins=["https://agrinex-web-bot-production.up.railway.app"],  # Allow all origins
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allow all headers
