@@ -52,7 +52,8 @@ async def ask_agent(request: Request):
     ai_response, audio_file_name = voice.process_message_and_generate_audio(user_message)
     
     # Construct the URL for the audio file
-    audio_url = f`https://agrinex-web-bot-production.up.railway.app/audio/${audio_file_name}`
+    audio_url =f"https://agrinex-web-bot-production.up.railway.app/audio/{audio_file_name}"
+
 
     
     return {"reply": ai_response, "audio_url": audio_url}
