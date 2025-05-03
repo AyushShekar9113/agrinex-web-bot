@@ -102,7 +102,7 @@ body.dark-mode #toggleMode {
             document.getElementById("agentResponseContainer").innerHTML = `<p>Agent: Starting... Please wait.</p>`;
 
             try {
-                const response = await fetch("https://agrinex-web-bot.onrender.com/start-agent", {
+                const response = await fetch("start-agent", {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ body.dark-mode #toggleMode {
         const seenMessages = new Set();  // ✅ Track unique messages
 
         function connectWebSocket() {
-            socket = new WebSocket('wss://agrinex-web-bot.onrender.com/ws');
+            socket = new WebSocket('wss://agrinex-web-bot-production.up.railway.app/ws');
             socket.onopen = () => {
                 console.log('WebSocket connection established.');
                 document.getElementById("agentResponseContainer").innerHTML += `<p>Agent: Typing...</p>`;
