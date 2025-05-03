@@ -78,8 +78,9 @@ async def websocket_endpoint(websocket: WebSocket):
     # Redirect stdout
     sys.stdout = WebSocketPrinter(websocket, original_stdout)
     try:
-        # Call your main agent logic here
-        await voice.main(websocket)
+        # Call your main agent logic here        
+        import asyncio
+        asyncio.create_task(voice.main(websocket))
 
         while True:
             await voice.speak_translated(websocket, "Welcome to AgriNex! Please choose your language.", "en")
